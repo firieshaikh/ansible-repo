@@ -1,0 +1,2 @@
+[lamp-stacks]
+docker2 ansible_ssh_host=192.168.2.52
