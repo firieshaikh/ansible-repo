@@ -2,5 +2,5 @@
 - hosts: "{{ target }}"
   roles:
     - {role: base-packages, tags: base-packages}
-    - {role: apache2, tags: apache2}
+    - {role: apache2, tags: apache2, become: true}
     - {role: mysql, tags: mysql}

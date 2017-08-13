@@ -1,9 +1,19 @@
 ---
+- include_role:
+    name: base-packages
+
 - name: 1. install Apache
-  apt: name=apache2 state=present
+  apt: name=apache2 state=latest
 
 - name: 2. install PHP module for Apache
-  apt: name=libapache2-mod-php5 state=present
+  apt: name=libapache2-mod-php5 state=latest
 
-- name: 3. start Apache
-  service: name=apache2 state=started enabled=yes
+- name: Custom document root
+  file: path={{ doc_root }} state=directory owner=www-data group=www-data
+
+- name: Copy html file
+  copy: src=index.html dest={{ doc_root }}/index.html owner=www-data group=www-data mode=0644
+
+- name: Setup virtual host template
+  template: src=vhost.j2 dest=/etc/apache2/sites-available/000-default.conf
+  notify: restart apache
